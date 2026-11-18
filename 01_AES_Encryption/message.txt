@@ -1,0 +1,4 @@
+Confidential Project Data: OpenSSL AES-256-CBC Symmetric Encryption Demonstration.
+Cryptography and Network Security (CNS) Lab.
+Symmetric encryption uses the exact same shared secret key for encryption and decryption.
+Security parameters: Key size = 256 bits, Mode = CBC, KDF = PBKDF2 with 100,000 iterations.

@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenSSL & Hybrid Cryptography Suite</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Top Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="logo-area">
+        <div class="shield-badge">🔒</div>
+        <div>
+          <h1 class="logo-title">OpenSSL & Hybrid Cryptography Suite</h1>
+          <p class="logo-subtitle">Cryptography & Network Security (CNS) Laboratory Demonstration</p>
+        </div>
+      </div>
+      <nav class="nav-tabs">
+        <button class="nav-tab active" data-tab="tab-hybrid">
+          <span class="tab-icon">⚡</span> Real-World File Transfer (12 Steps)
+        </button>
+        <button class="nav-tab" data-tab="tab-experiments">
+          <span class="tab-icon">💻</span> OpenSSL CLI Experiments (Interactive Internal Steps)
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <!-- ======================================================== -->
+    <!-- TAB 1: REAL-WORLD HYBRID ENCRYPTION (12 INDIVIDUAL STEPS) -->
+    <!-- ======================================================== -->
+    <section id="tab-hybrid" class="tab-pane active">
+      <!-- Introduction Banner -->
+      <div class="intro-card">
+        <div class="intro-content">
+          <h2>Hybrid Encryption: 12-Step Real-World File Transfer</h2>
+          <p>
+            Demonstrates how <strong>AES-256-GCM</strong> (symmetric encryption), <strong>RSA-2048</strong> (asymmetric key encapsulation), 
+            and <strong>SHA-256</strong> (integrity verification) collaborate in production protocols. 
+            Below, <strong>each of the 12 steps is shown individually</strong> with its exact action, security explanation, and cryptographic output.
+          </p>
+        </div>
+        <div class="top-action-bar">
+          <button id="btn-run-all-12-steps" class="btn btn-success btn-lg">
+            ⚡ Run All 12 Steps Automatically
+          </button>
+          <button id="btn-reset-workflow" class="btn btn-outline btn-sm">
+            🔄 Reset All Steps
+          </button>
+        </div>
+      </div>
+
+      <!-- 12 INDIVIDUAL STEP CONTAINERS -->
+      <div class="individual-steps-list">
+
+        <!-- STEP 1 -->
+        <div class="ind-step-card" id="card-step-1">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">1</span>
+              <div>
+                <h3>Step 1: Receiver Generates RSA-2048 Key Pair</h3>
+                <span class="actor-badge receiver">Participant: Receiver (Device A)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-1">Ready</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The receiver's browser invokes <code>window.crypto.subtle.generateKey</code> to create a mathematically linked 2048-bit RSA key pair: a Public Key ($e=65537, N$) and a Private Key ($d, N$) configured with OAEP padding and SHA-256.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Asymmetric cryptography eliminates the need for a pre-shared secret. The public key can be given to anyone, but only the holder of the private key can decrypt messages intended for them.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-1" class="btn btn-primary">
+                🔑 Execute Step 1: Generate RSA-2048 Key Pair
+              </button>
+              <div class="step-artifact-box mt-2">
+                <label>Receiver's Generated Public Key (PEM / SPKI format):</label>
+                <textarea id="txt-step1-pubkey" placeholder="Public key PEM will appear here once generated..." readonly></textarea>
+                <div id="step1-privkey-status" class="status-indicator waiting mt-2">Private Key: Not generated yet</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="ind-step-card" id="card-step-2">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">2</span>
+              <div>
+                <h3>Step 2: Receiver Shares Public Key with Sender</h3>
+                <span class="actor-badge receiver">Participant: Receiver ➔ Sender</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-2">Waiting for Step 1</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The receiver exports the RSA Public Key into standard SubjectPublicKeyInfo (SPKI) PEM format and transmits it to the sender across the network (via TLS, email, or key registry).</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Public keys are mathematically safe to distribute across untrusted or public networks. Intercepting a public key does not allow an eavesdropper to decrypt any ciphertext.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-2" class="btn btn-accent" disabled>
+                🚀 Execute Step 2: Share Public Key with Sender
+              </button>
+              <div class="step-artifact-box mt-2">
+                <label>Sender's Received Public Key Buffer:</label>
+                <textarea id="txt-step2-sender-key" placeholder="Will be filled once shared from Receiver..." readonly></textarea>
+                <div id="step2-status" class="status-indicator waiting mt-2">Awaiting key sharing from Step 1</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="ind-step-card" id="card-step-3">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">3</span>
+              <div>
+                <h3>Step 3: Sender Selects Confidential File (PDF / Document)</h3>
+                <span class="actor-badge sender">Participant: Sender (Device B)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-3">Ready</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The sender selects a file (such as a confidential PDF, image, or document). The browser reads the file's raw binary octets into memory as an <code>ArrayBuffer</code>.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Directly encrypting large files with RSA is computationally prohibitive and impossible beyond 190 bytes (RSA-2048 with OAEP-SHA256). Therefore, the raw file is buffered for high-speed symmetric AES encryption.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <div class="file-picker-row">
+                <input type="file" id="ind-file-input" class="file-input">
+                <button id="btn-step-3-sample" class="btn btn-outline">
+                  📄 Load Sample PDF Document
+                </button>
+              </div>
+              <div id="step3-file-info" class="file-info-badge mt-2 hidden">
+                <span id="step3-filename">No file selected</span>
+                <span id="step3-filesize">0 KB</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="ind-step-card" id="card-step-4">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">4</span>
+              <div>
+                <h3>Step 4: Application Generates Ephemeral AES-256 Symmetric Key & IV</h3>
+                <span class="actor-badge sender">Participant: Sender (Crypto Engine)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-4">Waiting for File</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The cryptographic engine calls <code>window.crypto.subtle.generateKey</code> to produce a random 256-bit AES key and generates a 96-bit (12-byte) random Initialization Vector (IV) using a CSPRNG.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Generating a unique one-time session key for every single file transfer guarantees forward secrecy and prevents key-reuse vulnerabilities across different files.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-4" class="btn btn-primary" disabled>
+                🎲 Execute Step 4: Generate 256-bit AES Key & 12-byte IV
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="metric-row">
+                  <span class="m-label">Generated 256-bit AES Key:</span>
+                  <span id="step4-aes-key-hex" class="m-val mono">Awaiting generation...</span>
+                </div>
+                <div class="metric-row">
+                  <span class="m-label">Generated 96-bit (12-byte) IV:</span>
+                  <span id="step4-iv-hex" class="m-val mono">Awaiting generation...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="ind-step-card" id="card-step-5">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">5</span>
+              <div>
+                <h3>Step 5: AES-256-GCM Encrypts the File Payload</h3>
+                <span class="actor-badge sender">Participant: Sender (Crypto Engine)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-5">Waiting for Key</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The 256-bit AES key encrypts the full file binary data using Galois/Counter Mode (GCM). GCM simultaneously creates ciphertext and computes a 128-bit authentication tag.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>AES-GCM is an Authenticated Encryption with Associated Data (AEAD) algorithm. It provides military-grade bulk confidentiality while guaranteeing ciphertext integrity against any modification.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-5" class="btn btn-primary" disabled>
+                🔒 Execute Step 5: Encrypt File with AES-256-GCM
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="metric-row">
+                  <span class="m-label">Ciphertext Length:</span>
+                  <span id="step5-cipher-len" class="m-val mono">Awaiting encryption...</span>
+                </div>
+                <div class="metric-row">
+                  <span class="m-label">AEAD Authentication Tag:</span>
+                  <span id="step5-auth-tag" class="m-val mono">Awaiting encryption...</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="ind-step-card" id="card-step-6">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">6</span>
+              <div>
+                <h3>Step 6: RSA Encrypts AES Key via Receiver's Public Key (Key Encapsulation)</h3>
+                <span class="actor-badge sender">Participant: Sender (Key Encapsulation)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-6">Waiting for Step 4 & 2</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The small 32-byte raw AES key is encrypted using the Receiver's RSA-2048 Public Key with Optimal Asymmetric Encryption Padding (OAEP) and SHA-256.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>This is Key Encapsulation. The heavy file is encrypted with fast AES, and only the tiny 32-byte AES key is encrypted with RSA. This gives asymmetric security with symmetric speed.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-6" class="btn btn-primary" disabled>
+                🛡️ Execute Step 6: Encrypt AES Key with RSA Public Key
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="metric-row">
+                  <span class="m-label">Encapsulated RSA Ciphertext:</span>
+                  <span id="step6-enc-key-len" class="m-val mono">Awaiting encapsulation...</span>
+                </div>
+                <div class="metric-row">
+                  <span class="m-label">Padding Mode:</span>
+                  <span class="m-val mono">RSA-OAEP with SHA-256 mask</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="ind-step-card" id="card-step-7">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">7</span>
+              <div>
+                <h3>Step 7: SHA-256 Calculates Original File Digest</h3>
+                <span class="actor-badge sender">Participant: Sender (Integrity Hash)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-7">Waiting for File</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The sender passes the unencrypted original file bytes through the SHA-256 cryptographic hash function to compute a fixed 256-bit (64 hexadecimal characters) digest.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Hashing creates an unforgeable digital fingerprint. Even if a single character of the file is changed, the Avalanche Effect will produce a completely different hash on the receiving end.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-7" class="btn btn-primary" disabled>
+                ⚙️ Execute Step 7: Calculate SHA-256 Digest of Original File
+              </button>
+              <div class="step-artifact-box mt-2">
+                <label>Original File SHA-256 Digest (Baseline):</label>
+                <div id="step7-sha-hex" class="artifact-box mono">Awaiting computation...</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 8 -->
+        <div class="ind-step-card" id="card-step-8">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">8</span>
+              <div>
+                <h3>Step 8: Application Builds Encrypted JSON Transfer Package</h3>
+                <span class="actor-badge sender">Participant: Sender ➔ Network</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-8">Waiting for Steps 5, 6, 7</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The application bundles the RSA-encrypted AES key, the AES-GCM file ciphertext, the 12-byte IV, the original SHA-256 hash, and file metadata into a standardized <code>.secpack.json</code> package.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Bundling all cryptographic artifacts into a structured transfer envelope ensures interoperable, portable transmission across any network channel, email, or cloud storage.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-8" class="btn btn-primary" disabled>
+                📦 Execute Step 8: Assemble .secpack.json Package
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="btn-group mb-2">
+                  <button id="btn-step8-download" class="btn btn-secondary btn-sm" disabled>
+                    💾 Download .secpack.json
+                  </button>
+                  <button id="btn-step8-transmit" class="btn btn-accent btn-sm" disabled>
+                    📨 Transmit Package to Receiver (Steps 9-12)
+                  </button>
+                </div>
+                <textarea id="txt-step8-json" placeholder="Assembled JSON transfer package will appear here..." readonly></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 9 -->
+        <div class="ind-step-card" id="card-step-9">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">9</span>
+              <div>
+                <h3>Step 9: Receiver Recovers AES Key via Private Key</h3>
+                <span class="actor-badge receiver">Participant: Receiver (Station C)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-9">Waiting for Package</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The receiver extracts the 256-byte encrypted key from the package and uses their secret RSA Private Key ($d$) to decrypt it using RSA-OAEP with SHA-256.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Only the legitimate recipient possessing the secret private key can invert the modular exponentiation $m = c^d \pmod N$ to recover the 32-byte AES key. Eavesdroppers cannot decrypt it.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-9" class="btn btn-primary" disabled>
+                🔓 Execute Step 9: Decrypt AES Key using Private Key
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="metric-row">
+                  <span class="m-label">Recovered AES-256 Key:</span>
+                  <span id="step9-recovered-key-hex" class="m-val mono">Awaiting recovery...</span>
+                </div>
+                <div class="metric-row">
+                  <span class="m-label">Matches Sender's AES Key:</span>
+                  <span id="step9-match-status" class="m-val mono">Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 10 -->
+        <div class="ind-step-card" id="card-step-10">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">10</span>
+              <div>
+                <h3>Step 10: AES-256-GCM Decrypts the File Payload</h3>
+                <span class="actor-badge receiver">Participant: Receiver (Decryption Engine)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-10">Waiting for Step 9</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>Using the recovered 256-bit AES key and the 12-byte IV extracted from the package, the AES-GCM engine decrypts the ciphertext back into plaintext file bytes.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Fast hardware-accelerated symmetric decryption instantly reconstructs the original document (even large PDFs) while simultaneously validating the 128-bit authentication tag.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-10" class="btn btn-primary" disabled>
+                🔓 Execute Step 10: Decrypt File Payload using AES-256-GCM
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="metric-row">
+                  <span class="m-label">Decrypted Payload Size:</span>
+                  <span id="step10-decrypted-size" class="m-val mono">Awaiting decryption...</span>
+                </div>
+                <div class="metric-row">
+                  <span class="m-label">AEAD Tag Authentication:</span>
+                  <span id="step10-aead-status" class="m-val mono">Pending</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 11 -->
+        <div class="ind-step-card" id="card-step-11">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">11</span>
+              <div>
+                <h3>Step 11: SHA-256 Verifies Decrypted File Integrity</h3>
+                <span class="actor-badge receiver">Participant: Receiver (Integrity Verification)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-11">Waiting for Step 10</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The receiver calculates the SHA-256 cryptographic hash of the recovered file data and performs a strict bit-for-bit comparison against the original digest embedded in the package.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Provides mathematical proof of integrity. If the computed hash matches the original hash 100%, the receiver is guaranteed that the file was never modified, corrupted, or tampered with.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <button id="btn-step-11" class="btn btn-primary" disabled>
+                🔍 Execute Step 11: Recompute & Verify SHA-256 Integrity
+              </button>
+              <div class="step-artifact-box mt-2">
+                <div class="metric-row">
+                  <span class="m-label">Original Digest (from Sender):</span>
+                  <span id="step11-orig-sha" class="m-val mono">Awaiting verification...</span>
+                </div>
+                <div class="metric-row">
+                  <span class="m-label">Recomputed Digest (Receiver):</span>
+                  <span id="step11-recomputed-sha" class="m-val mono">Awaiting verification...</span>
+                </div>
+                <div id="step11-match-banner" class="alert-box mt-2 hidden">
+                  <div class="alert-title">✅ 100% BIT-FOR-BIT INTEGRITY VERIFIED</div>
+                  <div class="alert-desc">The recomputed digest matches the sender's original digest identically. Zero tampering occurred!</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 12 -->
+        <div class="ind-step-card" id="card-step-12">
+          <div class="ind-step-header">
+            <div class="step-badge-wrap">
+              <span class="step-badge-num">12</span>
+              <div>
+                <h3>Step 12: Receiver Previews & Downloads Original Verified PDF</h3>
+                <span class="actor-badge receiver">Participant: Receiver (User Interface)</span>
+              </div>
+            </div>
+            <span class="step-status-pill" id="status-step-12">Waiting for Step 11</span>
+          </div>
+
+          <div class="ind-step-body">
+            <div class="ind-step-explain">
+              <div class="explain-item">
+                <span class="explain-title">What is Happening:</span>
+                <p>The browser constructs a verified <code>Blob</code> from the decrypted ArrayBuffer and binds it to a downloadable object URL with the original filename and MIME type.</p>
+              </div>
+              <div class="explain-item">
+                <span class="explain-title">Why It Is Done (Security Rationale):</span>
+                <p>Concludes the secure file transfer lifecycle. The receiver now has the exact, identical confidential document sent by the sender in Step 3.</p>
+              </div>
+            </div>
+
+            <div class="ind-step-action-panel">
+              <div id="step12-download-wrap">
+                <a id="btn-step-12-download" class="btn btn-success btn-lg btn-block" disabled>
+                  📥 Download Verified Original File (<span id="step12-filename-lbl">Document</span>)
+                </a>
+              </div>
+              <div id="step12-success-note" class="status-indicator ready mt-2 hidden">
+                🎉 Secure File Transfer Completed Successfully with Hybrid Encryption!
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ======================================================== -->
+    <!-- TAB 2: OPENSSL CLI EXPERIMENTS (RESPONSIVE INTERNAL STEPS) -->
+    <!-- ======================================================== -->
+    <section id="tab-experiments" class="tab-pane">
+      <div class="experiments-intro">
+        <h2>OpenSSL CLI Command Demonstration Lab</h2>
+        <p>Interactive guide with all-in-one execution commands and the <strong>exact internal cryptographic steps</strong> of AES-256, RSA-2048, and SHA-256.</p>
+      </div>
+
+      <div class="exp-subtabs">
+        <button class="exp-tab-btn active" data-exp="exp-aes">Exp 1: AES-256-CBC Internal Steps</button>
+        <button class="exp-tab-btn" data-exp="exp-rsa">Exp 2: RSA-2048 Internal Steps</button>
+        <button class="exp-tab-btn" data-exp="exp-sha">Exp 3: SHA-256 Internal Steps</button>
+      </div>
+
+      <!-- EXP 1: AES-256-CBC INTERNAL STEPS -->
+      <div id="exp-aes" class="exp-content active">
+        <div class="exp-card">
+          <div class="exp-header-row">
+            <div>
+              <h3>Experiment 1: AES-256-CBC Symmetric Cipher (Under The Hood)</h3>
+              <p class="exp-tagline">Advanced Encryption Standard: 256-bit Key, PBKDF2 Key Derivation, PKCS#7 Padding, and 14 Substitution-Permutation Rounds</p>
+            </div>
+            <span class="cipher-tag">Symmetric Block Cipher</span>
+          </div>
+
+          <!-- ALL COMMANDS IN ONE LINE HIGHLIGHT BOX -->
+          <div class="oneline-box">
+            <div class="oneline-header">
+              <span class="oneline-badge">⚡ ALL COMMANDS IN ONE LINE (Run in CMD)</span>
+              <button class="copy-btn-primary" onclick="copyText('openssl enc -aes-256-cbc -salt -pbkdf2 -iter 100000 -in message.txt -out encrypted.bin -pass pass:Secret123 && openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in encrypted.bin -out decrypted.txt -pass pass:Secret123 && fc /b message.txt decrypted.txt', this)">
+                📋 Copy All Commands In One Line
+              </button>
+            </div>
+            <pre class="oneline-code"><code>openssl enc -aes-256-cbc -salt -pbkdf2 -iter 100000 -in message.txt -out encrypted.bin -pass pass:Secret123 && openssl enc -d -aes-256-cbc -pbkdf2 -iter 100000 -in encrypted.bin -out decrypted.txt -pass pass:Secret123 && fc /b message.txt decrypted.txt</code></pre>
+          </div>
+
+          <!-- INTERACTIVE SIMULATION & STEP CONTROLS -->
+          <div class="interactive-sim-bar">
+            <div class="sim-controls">
+              <button class="btn btn-primary btn-sm" onclick="playInternalSim('aes')">
+                ▶ Animate AES-256 Internal Rounds
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="resetInternalSim('aes')">
+                ⏮ Reset Steps
+              </button>
+            </div>
+            <span class="sim-status-label" id="sim-status-aes">Click any step below or play simulation</span>
+          </div>
+
+          <!-- ANIMATED STEP-BY-STEP PIPELINE -->
+          <div class="pipeline-section">
+            <div class="pipeline-track">
+              <div class="pipeline-node active" id="pnode-aes-1" onclick="highlightInternalStep('aes', 1)">
+                <div class="node-icon">📄</div>
+                <div class="node-title">Step 1: Input</div>
+                <div class="node-sub"><code>message.txt</code></div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-aes-2" onclick="highlightInternalStep('aes', 2)">
+                <div class="node-icon">🔑</div>
+                <div class="node-title">Step 2: PBKDF2</div>
+                <div class="node-sub">100k iters + Salt</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-aes-3" onclick="highlightInternalStep('aes', 3)">
+                <div class="node-icon">🧩</div>
+                <div class="node-title">Step 3: PKCS#7</div>
+                <div class="node-sub">16-Byte Pad</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-aes-4" onclick="highlightInternalStep('aes', 4)">
+                <div class="node-icon">🔄</div>
+                <div class="node-title">Step 4: CBC XOR</div>
+                <div class="node-sub">Chain Vector</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-aes-5" onclick="highlightInternalStep('aes', 5)">
+                <div class="node-icon">⚙️</div>
+                <div class="node-title">Step 5: 14 Rounds</div>
+                <div class="node-sub">SubBytes/ShiftRows</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-aes-6" onclick="highlightInternalStep('aes', 6)">
+                <div class="node-icon">🔓</div>
+                <div class="node-title">Step 6: Decrypt</div>
+                <div class="node-sub">Inverse Matrix</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-aes-7" onclick="highlightInternalStep('aes', 7)">
+                <div class="node-icon">✅</div>
+                <div class="node-title">Step 7: Verify</div>
+                <div class="node-sub"><code>fc /b</code> Match</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERNAL ALGORITHMIC STEPS DETAILED -->
+          <div class="internal-steps-container">
+            <h4 class="internal-section-heading">🔬 AES-256-CBC Internal Cryptographic Breakdown:</h4>
+            
+            <div class="internal-step-item active" id="istep-aes-1" onclick="highlightInternalStep('aes', 1)">
+              <div class="internal-step-num">Step 1</div>
+              <div class="internal-step-content">
+                <h5>Password Ingestion & Salt Generation (8 Bytes)</h5>
+                <p>OpenSSL reads the user passphrase and generates an 8-byte random cryptographic salt using CSPRNG. In the output file <code>encrypted.bin</code>, OpenSSL writes the 8-byte magic header <code>Salted__</code> followed immediately by this 8-byte salt.</p>
+                <div class="internal-math-pill">File Header: 0x53616C7465645F5F (ASCII "Salted__") + 8 bytes Salt</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-aes-2" onclick="highlightInternalStep('aes', 2)">
+              <div class="internal-step-num">Step 2</div>
+              <div class="internal-step-content">
+                <h5>PBKDF2 Key & IV Derivation (100,000 Iterations)</h5>
+                <p>OpenSSL executes Password-Based Key Derivation Function 2 (PBKDF2) using HMAC-SHA256 across 100,000 iterations. It derives a 256-bit (32 bytes) symmetric key $K$ and a 128-bit (16 bytes) Initialization Vector $IV$.</p>
+                <div class="internal-math-pill">Formula: DK = PBKDF2(HMAC-SHA256, Password, Salt, c=100000, dkLen=48 bytes)</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-aes-3" onclick="highlightInternalStep('aes', 3)">
+              <div class="internal-step-num">Step 3</div>
+              <div class="internal-step-content">
+                <h5>PKCS#7 Plaintext Padding (128-bit / 16-byte Blocks)</h5>
+                <p>AES operates strictly on fixed 16-byte blocks. If the message length is not an exact multiple of 16, PKCS#7 appends $N$ bytes, each with value $N$ (e.g., if 3 bytes are missing, it appends <code>0x03 0x03 0x03</code>). If the message is already a multiple of 16, a full 16-byte padding block is added.</p>
+                <div class="internal-math-pill">Block Size = 128 bits (16 bytes) | Padding bytes = 16 - (length mod 16)</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-aes-4" onclick="highlightInternalStep('aes', 4)">
+              <div class="internal-step-num">Step 4</div>
+              <div class="internal-step-content">
+                <h5>CBC Mode Chaining & XOR Operation</h5>
+                <p>In Cipher Block Chaining (CBC) mode, each 16-byte plaintext block $P_i$ is XORed with the previous ciphertext block $C_{i-1}$ before entering the encryption cipher. For the first block ($P_1$), it is XORed with the derived Initialization Vector ($IV$).</p>
+                <div class="internal-math-pill">Chaining Formula: C_i = AES_K( P_i ⊕ C_{i-1} ) with C_0 = IV</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-aes-5" onclick="highlightInternalStep('aes', 5)">
+              <div class="internal-step-num">Step 5</div>
+              <div class="internal-step-content">
+                <h5>The 14 Internal Rounds of AES-256 (Substitution-Permutation Network)</h5>
+                <p>For a 256-bit key, AES executes exactly 14 transformation rounds on a $4 \times 4$ byte state matrix:</p>
+                <ul class="internal-sublist">
+                  <li><strong>SubBytes:</strong> Non-linear byte substitution using the Rijndael S-Box lookup table based on multiplicative inverse in $GF(2^8)$.</li>
+                  <li><strong>ShiftRows:</strong> Permutation that cyclically shifts Row 0 by 0 bytes, Row 1 by 1 byte, Row 2 by 2 bytes, and Row 3 by 3 bytes.</li>
+                  <li><strong>MixColumns:</strong> Matrix multiplication in Galois Field $GF(2^8)$ providing inter-column diffusion (rounds 1–13; omitted in round 14).</li>
+                  <li><strong>AddRoundKey:</strong> Bitwise XOR of the state matrix with the 128-bit subkey derived from the Rijndael Key Schedule.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-aes-6" onclick="highlightInternalStep('aes', 6)">
+              <div class="internal-step-num">Step 6</div>
+              <div class="internal-step-content">
+                <h5>Decryption Inversion & PKCS#7 Unpadding</h5>
+                <p>During decryption with <code>openssl enc -d</code>, the exact reverse transformations are executed: <code>InvShiftRows</code>, <code>InvSubBytes</code>, <code>AddRoundKey</code>, and <code>InvMixColumns</code>. The output block is then XORed with the previous ciphertext block to recover $P_i$, and the trailing PKCS#7 padding bytes are safely stripped.</p>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-aes-7" onclick="highlightInternalStep('aes', 7)">
+              <div class="internal-step-num">Step 7</div>
+              <div class="internal-step-content">
+                <h5>Binary Comparison (`fc /b message.txt decrypted.txt`)</h5>
+                <p>Executes a bit-for-bit binary comparison. Returns <code>FC: no differences encountered</code>, mathematically proving that the decrypted plaintext matches the original file identically.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXP 2: RSA-2048 INTERNAL STEPS -->
+      <div id="exp-rsa" class="exp-content">
+        <div class="exp-card">
+          <div class="exp-header-row">
+            <div>
+              <h3>Experiment 2: RSA-2048 Asymmetric Cipher (Under The Hood)</h3>
+              <p class="exp-tagline">Rivest–Shamir–Adleman: Miller-Rabin Prime Generation, Extended Euclidean Algorithm, OAEP-SHA256 Padding, and Modular Arithmetic</p>
+            </div>
+            <span class="cipher-tag">Asymmetric Public Key Cipher</span>
+          </div>
+
+          <!-- ALL COMMANDS IN ONE LINE HIGHLIGHT BOX -->
+          <div class="oneline-box">
+            <div class="oneline-header">
+              <span class="oneline-badge">⚡ ALL COMMANDS IN ONE LINE (Run in CMD)</span>
+              <button class="copy-btn-primary" onclick="copyText('openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048 && openssl pkey -in private.pem -pubout -out public.pem && openssl pkeyutl -encrypt -pubin -inkey public.pem -in message.txt -out encrypted.bin -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 && openssl pkeyutl -decrypt -inkey private.pem -in encrypted.bin -out decrypted.txt -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 && fc /b message.txt decrypted.txt', this)">
+                📋 Copy All Commands In One Line
+              </button>
+            </div>
+            <pre class="oneline-code"><code>openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048 && openssl pkey -in private.pem -pubout -out public.pem && openssl pkeyutl -encrypt -pubin -inkey public.pem -in message.txt -out encrypted.bin -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 && openssl pkeyutl -decrypt -inkey private.pem -in encrypted.bin -out decrypted.txt -pkeyopt rsa_padding_mode:oaep -pkeyopt rsa_oaep_md:sha256 && fc /b message.txt decrypted.txt</code></pre>
+          </div>
+
+          <!-- INTERACTIVE SIMULATION & STEP CONTROLS -->
+          <div class="interactive-sim-bar">
+            <div class="sim-controls">
+              <button class="btn btn-primary btn-sm" onclick="playInternalSim('rsa')">
+                ▶ Animate RSA-2048 Math & Keygen
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="resetInternalSim('rsa')">
+                ⏮ Reset Steps
+              </button>
+            </div>
+            <span class="sim-status-label" id="sim-status-rsa">Click any step below or play simulation</span>
+          </div>
+
+          <!-- ANIMATED STEP-BY-STEP PIPELINE -->
+          <div class="pipeline-section">
+            <div class="pipeline-track">
+              <div class="pipeline-node active" id="pnode-rsa-1" onclick="highlightInternalStep('rsa', 1)">
+                <div class="node-icon">🔢</div>
+                <div class="node-title">Step 1: Primes</div>
+                <div class="node-sub">p & q (1024b)</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-rsa-2" onclick="highlightInternalStep('rsa', 2)">
+                <div class="node-icon">📐</div>
+                <div class="node-title">Step 2: Modulus</div>
+                <div class="node-sub">N = p × q</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-rsa-3" onclick="highlightInternalStep('rsa', 3)">
+                <div class="node-icon">🔑</div>
+                <div class="node-title">Step 3: Exponents</div>
+                <div class="node-sub">e=65537, d = e⁻¹</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-rsa-4" onclick="highlightInternalStep('rsa', 4)">
+                <div class="node-icon">📢</div>
+                <div class="node-title">Step 4: Export</div>
+                <div class="node-sub">public.pem</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-rsa-5" onclick="highlightInternalStep('rsa', 5)">
+                <div class="node-icon">🛡️</div>
+                <div class="node-title">Step 5: OAEP Pad</div>
+                <div class="node-sub">MGF1 + SHA-256</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-rsa-6" onclick="highlightInternalStep('rsa', 6)">
+                <div class="node-icon">⚡</div>
+                <div class="node-title">Step 6: ModExp</div>
+                <div class="node-sub">C = M^e mod N</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-rsa-7" onclick="highlightInternalStep('rsa', 7)">
+                <div class="node-icon">✅</div>
+                <div class="node-title">Step 7: Decrypt & Verify</div>
+                <div class="node-sub"><code>fc /b</code> Match</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERNAL ALGORITHMIC STEPS DETAILED -->
+          <div class="internal-steps-container">
+            <h4 class="internal-section-heading">🔬 RSA-2048 Internal Cryptographic Breakdown:</h4>
+            
+            <div class="internal-step-item active" id="istep-rsa-1" onclick="highlightInternalStep('rsa', 1)">
+              <div class="internal-step-num">Step 1</div>
+              <div class="internal-step-content">
+                <h5>Probabilistic Prime Generation ($p$ & $q$) via Miller-Rabin</h5>
+                <p>OpenSSL executes repeated iterations of the Miller-Rabin primality test and Lucas tests to generate two distinct, cryptographically strong 1024-bit prime numbers $p$ and $q$.</p>
+                <div class="internal-math-pill">Primes: p, q ∈ ℙ with |p| = |q| = 1024 bits</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-rsa-2" onclick="highlightInternalStep('rsa', 2)">
+              <div class="internal-step-num">Step 2</div>
+              <div class="internal-step-content">
+                <h5>RSA Modulus ($N$) and Euler's Totient ($\phi(N)$)</h5>
+                <p>Multiplies the two primes to obtain the 2048-bit composite modulus $N = p \times q$. The security of RSA relies on the computational impossibility of factoring $N$ back into $p$ and $q$. It then computes Euler's Totient function $\phi(N) = (p-1)(q-1)$ or Carmichael's totient $\lambda(N) = \text{lcm}(p-1, q-1)$.</p>
+                <div class="internal-math-pill">Modulus: N = p × q (2048 bits / 256 bytes) | φ(N) = (p - 1)(q - 1)</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-rsa-3" onclick="highlightInternalStep('rsa', 3)">
+              <div class="internal-step-num">Step 3</div>
+              <div class="internal-step-content">
+                <h5>Public Exponent ($e$) & Extended Euclidean Inversion ($d$)</h5>
+                <p>OpenSSL chooses the Fermat prime $F_4 = 65537 = 2^{16} + 1$ as the public exponent $e$ (because its binary representation <code>10000000000000001</code> requires only 17 squaring and 1 multiplication operations). It then calculates the private exponent $d$ using the Extended Euclidean Algorithm such that $e \cdot d \equiv 1 \pmod{\phi(N)}$.</p>
+                <div class="internal-math-pill">Public Exponent: e = 65537 | Private Exponent: d ≡ e⁻¹ (mod φ(N))</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-rsa-4" onclick="highlightInternalStep('rsa', 4)">
+              <div class="internal-step-num">Step 4</div>
+              <div class="internal-step-content">
+                <h5>Public Key Export (`public.pem`)</h5>
+                <p>OpenSSL extracts only the public parameters $(e, N)$ and formats them into an ASN.1 DER sequence encoded in base64 (SubjectPublicKeyInfo). The private parameters ($p, q, d, d_p, d_q, q_{inv}$) remain strictly isolated in <code>private.pem</code>.</p>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-rsa-5" onclick="highlightInternalStep('rsa', 5)">
+              <div class="internal-step-num">Step 5</div>
+              <div class="internal-step-content">
+                <h5>OAEP Padding with SHA-256 (Optimal Asymmetric Encryption Padding)</h5>
+                <p>Raw RSA ($c = m^e \pmod N$) is deterministic and vulnerable to mathematical chosen-ciphertext attacks. OAEP adds a random seed and runs Mask Generation Function 1 (MGF1) using SHA-256 to convert plaintext into an all-or-nothing randomized 256-byte block $M$.</p>
+                <div class="internal-math-pill">Max Payload: 256 bytes - 2×(32 bytes SHA256) - 2 = 190 bytes maximum plaintext</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-rsa-6" onclick="highlightInternalStep('rsa', 6)">
+              <div class="internal-step-num">Step 6</div>
+              <div class="internal-step-content">
+                <h5>Encryption via Modular Exponentiation ($C \equiv M^e \pmod N$)</h5>
+                <p>The sender encrypts the 256-byte padded block $M$ by raising it to the power $e$ modulo $N$. The resulting ciphertext $C$ is exactly 256 bytes (2048 bits) long and saved to <code>encrypted.bin</code>.</p>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-rsa-7" onclick="highlightInternalStep('rsa', 7)">
+              <div class="internal-step-num">Step 7</div>
+              <div class="internal-step-content">
+                <h5>Decryption via Chinese Remainder Theorem & Verification</h5>
+                <p>The private key holder computes $M \equiv C^d \pmod N$ (accelerated 4x using CRT parameters). The receiver validates OAEP padding, unmasks the random seed, extracts plaintext, and confirms bit-for-bit equality via <code>fc /b</code>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EXP 3: SHA-256 INTERNAL STEPS -->
+      <div id="exp-sha" class="exp-content">
+        <div class="exp-card">
+          <div class="exp-header-row">
+            <div>
+              <h3>Experiment 3: SHA-256 Cryptographic Hashing (Under The Hood)</h3>
+              <p class="exp-tagline">Secure Hash Algorithm: 512-bit Message Blocks, 64-Word Message Schedule Expansion, 64 Compression Rounds, and the Avalanche Effect</p>
+            </div>
+            <span class="cipher-tag">One-Way Message Digest</span>
+          </div>
+
+          <!-- ALL COMMANDS IN ONE LINE HIGHLIGHT BOX -->
+          <div class="oneline-box">
+            <div class="oneline-header">
+              <span class="oneline-badge">⚡ ALL COMMANDS IN ONE LINE (Run in CMD)</span>
+              <button class="copy-btn-primary" onclick="copyText('openssl dgst -sha256 original.txt > original_hash.txt && echo Tampered data >> original.txt && openssl dgst -sha256 original.txt > modified_hash.txt && fc /b original_hash.txt modified_hash.txt', this)">
+                📋 Copy All Commands In One Line
+              </button>
+            </div>
+            <pre class="oneline-code"><code>openssl dgst -sha256 original.txt > original_hash.txt && echo Tampered data >> original.txt && openssl dgst -sha256 original.txt > modified_hash.txt && fc /b original_hash.txt modified_hash.txt</code></pre>
+          </div>
+
+          <!-- INTERACTIVE LIVE AVALANCHE SIMULATOR -->
+          <div class="interactive-sim-bar">
+            <div class="sim-controls">
+              <button class="btn btn-primary btn-sm" onclick="playInternalSim('sha')">
+                ▶ Animate SHA-256 64-Round Compression
+              </button>
+              <button class="btn btn-outline btn-sm" onclick="testLiveAvalanche()">
+                💥 Trigger Live 1-Bit Avalanche Test
+              </button>
+            </div>
+            <span class="sim-status-label" id="sim-status-sha">Type below or trigger 1-bit avalanche</span>
+          </div>
+
+          <!-- LIVE RESPONSIVE INTERACTIVE HASH TESTER -->
+          <div class="live-hasher-card">
+            <label>Live Interactive Input (Edit text to see hash change live):</label>
+            <input type="text" id="live-sha-input" class="file-input live-text-input" value="Confidential Document 2026">
+            <div class="metric-row mt-2">
+              <span class="m-label">Live SHA-256 Digest:</span>
+              <span id="live-sha-output" class="m-val mono">Computing...</span>
+            </div>
+          </div>
+
+          <!-- ANIMATED STEP-BY-STEP PIPELINE -->
+          <div class="pipeline-section">
+            <div class="pipeline-track">
+              <div class="pipeline-node active" id="pnode-sha-1" onclick="highlightInternalStep('sha', 1)">
+                <div class="node-icon">📑</div>
+                <div class="node-title">Step 1: Pad Bits</div>
+                <div class="node-sub">512b Block Align</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-sha-2" onclick="highlightInternalStep('sha', 2)">
+                <div class="node-icon">🏛️</div>
+                <div class="node-title">Step 2: Init State</div>
+                <div class="node-sub">8 Prime Constants</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-sha-3" onclick="highlightInternalStep('sha', 3)">
+                <div class="node-icon">📊</div>
+                <div class="node-title">Step 3: Schedule</div>
+                <div class="node-sub">W_0 ... W_63</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-sha-4" onclick="highlightInternalStep('sha', 4)">
+                <div class="node-icon">⚙️</div>
+                <div class="node-title">Step 4: 64 Rounds</div>
+                <div class="node-sub">Ch & Maj Ops</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-sha-5" onclick="highlightInternalStep('sha', 5)">
+                <div class="node-icon">💥</div>
+                <div class="node-title">Step 5: Tamper</div>
+                <div class="node-sub">1-Bit Change</div>
+              </div>
+              <div class="pipe-arrow"><span class="pulse-dot"></span></div>
+
+              <div class="pipeline-node" id="pnode-sha-6" onclick="highlightInternalStep('sha', 6)">
+                <div class="node-icon">🔍</div>
+                <div class="node-title">Step 6: Avalanche</div>
+                <div class="node-sub"><code>fc /b</code> Detects All</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- INTERNAL ALGORITHMIC STEPS DETAILED -->
+          <div class="internal-steps-container">
+            <h4 class="internal-section-heading">🔬 SHA-256 Internal Cryptographic Breakdown:</h4>
+            
+            <div class="internal-step-item active" id="istep-sha-1" onclick="highlightInternalStep('sha', 1)">
+              <div class="internal-step-num">Step 1</div>
+              <div class="internal-step-content">
+                <h5>Message Pre-Processing & 512-Bit Block Padding</h5>
+                <p>SHA-256 processes messages in 512-bit (64-byte) blocks. The input data of length $L$ bits is padded by appending a single '1' bit, followed by $k$ zero bits such that the length is $\equiv 448 \pmod{512}$. Finally, the original length $L$ is appended as a 64-bit big-endian integer, ensuring total length is an exact multiple of 512 bits.</p>
+                <div class="internal-math-pill">Padding: [Data] + [1] + [0...0] + [64-bit Length L] ≡ 0 (mod 512)</div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-sha-2" onclick="highlightInternalStep('sha', 2)">
+              <div class="internal-step-num">Step 2</div>
+              <div class="internal-step-content">
+                <h5>Initialization of the 8 Working Registers ($H_0 \dots H_7$)</h5>
+                <p>Before processing the blocks, eight 32-bit internal hash registers $(a, b, c, d, e, f, g, h)$ are initialized with the first 32 bits of the fractional parts of the square roots of the first 8 prime numbers (2, 3, 5, 7, 11, 13, 17, 19):</p>
+                <div class="internal-math-pill">
+                  H_0 = 0x6a09e667, H_1 = 0xbb67ae85, H_2 = 0x3c6ef372, H_3 = 0xa54ff53a<br>
+                  H_4 = 0x510e527f, H_5 = 0x9b05688c, H_6 = 0x1f83d9ab, H_7 = 0x5be0cd19
+                </div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-sha-3" onclick="highlightInternalStep('sha', 3)">
+              <div class="internal-step-num">Step 3</div>
+              <div class="internal-step-content">
+                <h5>Message Schedule Expansion (16 Words Expanded to 64 Words)</h5>
+                <p>Each 512-bit chunk is parsed into sixteen 32-bit words ($W_0 \dots W_{15}$). The algorithm then expands these 16 words into a full 64-word schedule ($W_{16} \dots W_{63}$) using bitwise rotation ($\text{ROTR}$), logical shifts ($\text{SHR}$), and modulo $2^{32}$ addition:</p>
+                <div class="internal-math-pill">
+                  W_t = σ_1(W_{t-2}) + W_{t-7} + σ_0(W_{t-15}) + W_{t-16}<br>
+                  σ_0(x) = ROTR⁷(x) ⊕ ROTR¹⁸(x) ⊕ SHR³(x)<br>
+                  σ_1(x) = ROTR¹⁷(x) ⊕ ROTR¹⁹(x) ⊕ SHR¹⁰(x)
+                </div>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-sha-4" onclick="highlightInternalStep('sha', 4)">
+              <div class="internal-step-num">Step 4</div>
+              <div class="internal-step-content">
+                <h5>The 64 Compression Rounds with Constants ($K_0 \dots K_{63}$)</h5>
+                <p>SHA-256 executes exactly 64 compression rounds using 64 cube-root prime constants $K_t$. Each round transforms the 8 working variables using non-linear boolean operations:</p>
+                <ul class="internal-sublist">
+                  <li><strong>Ch(e, f, g):</strong> Choose function = $(e \wedge f) \oplus (\neg e \wedge g)$.</li>
+                  <li><strong>Maj(a, b, c):</strong> Majority function = $(a \wedge b) \oplus (a \wedge c) \oplus (b \wedge c)$.</li>
+                  <li><strong>Σ_0(a) & Σ_1(e):</strong> $\text{ROTR}^2(a) \oplus \text{ROTR}^{13}(a) \oplus \text{ROTR}^{22}(a)$ and $\text{ROTR}^6(e) \oplus \text{ROTR}^{11}(e) \oplus \text{ROTR}^{25}(e)$.</li>
+                  <li><strong>Temporary Variables:</strong> $T_1 = h + \Sigma_1(e) + \text{Ch}(e, f, g) + K_t + W_t$ and $T_2 = \Sigma_0(a) + \text{Maj}(a, b, c)$.</li>
+                  <li><strong>Register Shift:</strong> $h \leftarrow g, g \leftarrow f, f \leftarrow e, e \leftarrow d + T_1, d \leftarrow c, c \leftarrow b, b \leftarrow a, a \leftarrow T_1 + T_2$.</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-sha-5" onclick="highlightInternalStep('sha', 5)">
+              <div class="internal-step-num">Step 5</div>
+              <div class="internal-step-content">
+                <h5>Intermediate Hash Addition & 256-Bit Digest Output</h5>
+                <p>After all 64 rounds finish for a block, the working variables are added back into the hash state ($H_0 = H_0 + a, \dots, H_7 = H_7 + h$). After all 512-bit blocks are consumed, $H_0 \dots H_7$ are concatenated into the final 256-bit (32 bytes / 64 hex characters) output digest.</p>
+              </div>
+            </div>
+
+            <div class="internal-step-item" id="istep-sha-6" onclick="highlightInternalStep('sha', 6)">
+              <div class="internal-step-num">Step 6</div>
+              <div class="internal-step-content">
+                <h5>Data Tampering & The Avalanche Effect (Proven with `fc /b`)</h5>
+                <p>When even a single character (or 1 bit) is appended or modified in <code>original.txt</code>, the bitwise diffusion across the 64 compression rounds causes $>50\%$ of all bits in the final 256-bit digest to flip completely. Binary comparison with <code>fc /b original_hash.txt modified_hash.txt</code> confirms total divergence, mathematically guaranteeing instant tampering detection.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="toast">Action completed successfully</div>
+
+  <script src="app.js"></script>
+</body>
+</html>

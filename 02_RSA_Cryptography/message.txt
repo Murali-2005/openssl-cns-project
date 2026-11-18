@@ -1,0 +1,2 @@
+Secret Payload: RSA-2048 Asymmetric Key Exchange (CNS Lab 2026).
+Padding: OAEP with SHA-256.

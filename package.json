@@ -1,0 +1,12 @@
+{
+  "name": "openssl-cryptography-lab",
+  "version": "1.0.0",
+  "description": "OpenSSL Cryptography and Network Security Interactive Lab",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["openssl", "cryptography", "aes", "rsa", "sha256"],
+  "author": "Murali",
+  "license": "MIT"
+}
